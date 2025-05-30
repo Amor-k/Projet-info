@@ -1,0 +1,37 @@
+class UnionFind:
+    def __init__(self, n): #  n étant le nombre de villes
+        self.parent = list(range(n)) 
+
+    def find(self, i): 
+        if self.parent[i] != i:
+            self.parent[i] = self.find(self.parent[i]) # On réduit la longueur du chemin
+        return self.parent[i]
+
+    def union(self, x, y ):
+
+        fx = self.find(x)
+        fy = self.find(y)
+
+        if (fx == fy):
+            return False
+        else :
+            self.parent[fx]=fy
+            return True
+
+    def kruskal(D): 
+
+        # création liste d'arête avec leur poids :
+         
+        arêtes = []
+        n = len(D)                                              # nombre de ville
+        for i in range(n):
+            for j in range(i + 1, n):                           # de i+1 à n pour éviter les doublons
+                arêtes.append((D[i][j], i, j))                  # chaque arête est configuré comme telle : (poids/distance, sommet1, sommet2)
+
+        arêtes_tri = sorted(arêtes)                             # tri des arête en fonction de leur poids
+
+        chemin_opti = []
+
+        for poids, x, y in arêtes_tri:
+            if UnionFind(n).union(x,y):
+                chemin_opti.append((x,y))
